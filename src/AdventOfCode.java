@@ -1,9 +1,113 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AdventOfCode {
     public static void main(String[]args){
         FileProcessing fp = new FileProcessing();
-        System.out.println(dayFourSecondPuzzle(fp.readFileAsStringList("aoc04.txt")));
+        System.out.println(dayFiveSecondPuzzle(fp.readFileAsStringList("aoc05.txt")));
+    }
+
+    public static int dayFiveSecondPuzzle(List<String> inputList) {
+        List<Integer> boardingPasses = new ArrayList<>();
+
+        for (int i = 0; i < inputList.size(); i++) {
+            int rowDown = 0;
+            int rowUp = 127;
+            int columnDown = 0;
+            int columnUp = 7;
+            int currentRow = 0;
+
+            for (int j = 0; j < inputList.get(i).length(); j++){
+                char letter = inputList.get(i).charAt(j);
+
+                if (String.valueOf(letter).equals("F")) {
+                    rowUp -= (rowUp - rowDown) / 2 + 1;
+
+                    if (rowUp == rowDown) {
+                        currentRow = rowUp;
+                    }
+                } else if (String.valueOf(letter).equals("B")) {
+                    rowDown += (rowUp - rowDown)/2 + 1;
+
+                    if (rowUp == rowDown) {
+                        currentRow = rowUp;
+                    }
+                } else if (String.valueOf(letter).equals("L")) {
+                    columnUp -= (columnUp - columnDown) / 2 + 1;
+
+                    if (columnUp == columnDown) {
+                        boardingPasses.add(currentRow * 8 + columnUp);
+                    }
+                } else if (String.valueOf(letter).equals("R")) {
+                    columnDown += (columnUp - columnDown) / 2 + 1;
+
+                    if (columnUp == columnDown) {
+                        boardingPasses.add(currentRow * 8 + columnUp);
+                    }
+                }
+            }
+        }
+        Collections.sort(boardingPasses);
+
+        for (int i = 0; i < boardingPasses.size()-1; i++) {
+            if (boardingPasses.get(i) != boardingPasses.get(i+1)-1) {
+                return boardingPasses.get(i)+1;
+            }
+        }
+
+        return 0;
+    }
+
+    public static int dayFiveFirstPuzzle(List<String> inputList) {
+        List<Integer> boardingPasses = new ArrayList<>();
+
+        for (int i = 0; i < inputList.size(); i++) {
+            int rowDown = 0;
+            int rowUp = 127;
+            int columnDown = 0;
+            int columnUp = 7;
+            int currentRow = 0;
+
+            for (int j = 0; j < inputList.get(i).length(); j++){
+                char letter = inputList.get(i).charAt(j);
+
+                if (String.valueOf(letter).equals("F")) {
+                    rowUp -= (rowUp - rowDown) / 2 + 1;
+
+                    if (rowUp == rowDown) {
+                        currentRow = rowUp;
+                    }
+                } else if (String.valueOf(letter).equals("B")) {
+                    rowDown += (rowUp - rowDown)/2 + 1;
+
+                    if (rowUp == rowDown) {
+                        currentRow = rowUp;
+                    }
+                } else if (String.valueOf(letter).equals("L")) {
+                    columnUp -= (columnUp - columnDown) / 2 + 1;
+
+                    if (columnUp == columnDown) {
+                        boardingPasses.add(currentRow * 8 + columnUp);
+                    }
+                } else if (String.valueOf(letter).equals("R")) {
+                    columnDown += (columnUp - columnDown) / 2 + 1;
+
+                    if (columnUp == columnDown) {
+                        boardingPasses.add(currentRow * 8 + columnUp);
+                    }
+                }
+            }
+        }
+
+        int max = 0;
+        for (int j = 0; j < boardingPasses.size(); j++) {
+            if (boardingPasses.get(j) > max) {
+                max = boardingPasses.get(j);
+            }
+        }
+
+        return max;
     }
 
     public static int dayFourSecondPuzzle(List<String> inputList) {

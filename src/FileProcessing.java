@@ -9,7 +9,7 @@ public class FileProcessing {
         List<String> inputList = new ArrayList<String>();
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("\\Users\\klaudia.bzdyk\\Desktop\\AdventOfCode\\" + fileName));
+            reader = new BufferedReader(new FileReader("/Users/klaudia/desktop/adventOfCode/AdventOfCode2020/" + fileName));
             String line = reader.readLine();
             while (line != null) {
                 inputList.add(line);
