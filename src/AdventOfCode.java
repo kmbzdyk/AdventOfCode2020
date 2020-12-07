@@ -5,7 +5,86 @@ import java.util.List;
 public class AdventOfCode {
     public static void main(String[]args){
         FileProcessing fp = new FileProcessing();
-        System.out.println(dayFiveSecondPuzzle(fp.readFileAsStringList("aoc05.txt")));
+        System.out.println(daySixSecondPuzzle(fp.readFileAsStringList("aoc06.txt")));
+    }
+
+    public static int daySixSecondPuzzle(List<String> inputList) {
+        int countYesAnswers = 0;
+        String checkedLetters = "";
+        int currentInputSize = 0;
+
+        for (int i = 0; i <= inputList.size(); i++) {
+            if (!(i == inputList.size() || inputList.get(i).isEmpty())) {
+                currentInputSize++;
+
+                for (int j = 0; j < inputList.get(i).length(); j++) {
+                    checkedLetters += String.valueOf(inputList.get(i).charAt(j));
+                }
+            } else {
+                List<String > groupEntriesToCheck = new ArrayList<>();
+
+                for (int j = 0; j < checkedLetters.length(); j++) {
+                    boolean exists = false;
+
+                    for (int k = 0; k < groupEntriesToCheck.size(); k++) {
+                        if (String.valueOf(checkedLetters.charAt(j)).equals(groupEntriesToCheck.get(k))) {
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!exists) {
+                        groupEntriesToCheck.add(String.valueOf(checkedLetters.charAt(j)));
+                    }
+                }
+
+                for (int k = 0; k < groupEntriesToCheck.size(); k++) {
+                    int countLetterOccurences = 0;
+
+                    for (int j = 0; j < checkedLetters.length(); j++) {
+                        if (groupEntriesToCheck.get(k).equals(String.valueOf(checkedLetters.charAt(j)))) {
+                            countLetterOccurences++;
+                        }
+                    }
+
+                    if (countLetterOccurences == currentInputSize) {
+                        countYesAnswers++;
+                    }
+                }
+
+                checkedLetters = "";
+                currentInputSize = 0;
+            }
+        }
+
+        return countYesAnswers;
+    }
+
+    public static int daySixFirstPuzzle(List<String> inputList) {
+        int countYesAnswers = 0;
+        List<String> checkedLetters = new ArrayList<>();
+
+        for (int i = 0; i <= inputList.size(); i++) {
+
+            if (!(i == inputList.size() || inputList.get(i).isEmpty())) {
+                for (int j = 0; j < inputList.get(i).length(); j++) {
+                    boolean letterChecked = false;
+
+                    for (int k = 0; k < checkedLetters.size(); k++) {
+                        if (checkedLetters.get(k).equals(String.valueOf(inputList.get(i).charAt(j)))) {
+                            letterChecked = true;
+                        }
+                    } if (!letterChecked) {
+                        checkedLetters.add(String.valueOf(inputList.get(i).charAt(j)));
+                    }
+                }
+            } else {
+                countYesAnswers += checkedLetters.size();
+                checkedLetters = new ArrayList<>();;
+            }
+        }
+
+        return countYesAnswers;
     }
 
     public static int dayFiveSecondPuzzle(List<String> inputList) {
